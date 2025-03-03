@@ -3,9 +3,7 @@
 
 int main()
 {
-    char c[20] = "Hello" ;
-    const char *a = ", Wolrd";
-    printf("\n%ld\n", ft_strcat(c,a,sizeof(c)));
+    char str[10] ;
     //char *result = ft_strnstr("Hello world", "world", 13);
     //printf ("\n%d" ,ft_strlen(str));
     //printf ("\n%d\n" ,ft_strchr(str, 'o'));

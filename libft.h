@@ -22,7 +22,7 @@ int ft_isalnum(int c){
 	}else {
 		return 0;
 	}
-	
+
 }
 
 int ft_isascci(int c){
@@ -108,26 +108,26 @@ int ft_strcmp(char *a, char *b){
 
 char *ft_strnstr(const char *c, const char *a, int len)
 {
-    int needle_len;
+    int a_len;
     if (*a == '\0')
         return (char *)c;
-    needle_len = ft_strlen(a);
-    while (*c != '\0' && len >= needle_len)
+    a_len = ft_strlen(a);
+    while (*c != '\0' && len >= a_len)
     {
         if (*c == *a)
         {
             int i = 0;
-            while (i < needle_len && c[i] == a[i])
+            while (i < a_len && c[i] == a[i])
                 i++;
-            
-            if (i == needle_len)
+
+            if (i == a_len)
                 return (char *)c;
         }
-        
+
         c++;
         len--;
     }
-    
+
 }
 
 int ft_strlcpy(char *c,char *a, int len){
@@ -147,3 +147,22 @@ int ft_strlcpy(char *c,char *a, int len){
 }
 
 
+size_t ft_strcat(char *c,const char *a, size_t size ){
+	size_t c_len = ft_strlen(c);
+	size_t a_len = ft_strlen(a);
+	size_t i = 0;
+
+	if(a_len == size){
+		return size + a_len;
+	}
+
+	while(a[i] != '\0' && c_len + i < size - 1){
+		c[c_len+i] = a[i];
+		i++;
+	}
+
+	c[c_len + i] = '\0';
+
+	return c_len + a_len;
+
+}
