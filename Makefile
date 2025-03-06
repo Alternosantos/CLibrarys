@@ -1,3 +1,3 @@
 default:
 	gcc -o teste teste.c 
-	./teste
+	./teste -Wall - Wextra -Werror
