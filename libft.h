@@ -1,6 +1,34 @@
 #include <stdlib.h> 
 
 
+static size_t ft_wordcounter(char const *s){
+
+	size_t counter = 0;
+	while (*s) {
+		while (ft_isspace((unsigned char)*s)) {
+			s++;
+		}
+		if (*s) {
+			counter++;	
+		}
+		while (*s && !ft_isspace((unsigned char)*s)) {
+			s++;
+		}
+	}
+	return counter;
+}
+
+static size_t ft_count_digits(int n) {
+    size_t count = 0;
+    if (n <= 0)
+        count++;
+    while (n) {
+        count++;
+        n /= 10;
+    }
+    return count;
+}
+
 int ft_isalpha(int c) {
 	if (c >= 'a' && c <= 'z') {
 		return 1;
@@ -11,7 +39,7 @@ int ft_isalpha(int c) {
 	}
 }
 
-int ft_isspace(char c) {
+int ft_isspace(int c) {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
 }
 
@@ -297,3 +325,159 @@ void *ft_calloc(size_t a, size_t s){
 	return ptr;
 }
 
+char *ft_substr(char const *s, unsigned int start,size_t len){
+
+	char *sub_str;
+	size_t s_len;
+
+	if (!s) {
+		return NULL;	
+	}
+
+	s_len = ft_strlen(s);
+	if (start > s_len) {
+		return ft_strdup("");
+	}
+	if (len > s_len - start) {
+		len = s_len - start;
+	}
+
+	sub_str = (char *)malloc(len - 1);
+	if (!sub_str) {
+		return NULL;
+	}
+	ft_memcpy(sub_str, s + start, len);
+	sub_str[len] = '\0';
+	return sub_str;
+}
+
+
+
+char *ft_strjoin(char const *s1, char const *s2){
+
+	char *result;
+	size_t len1 = ft_strlen(s1);
+	size_t len2 = ft_strlen(s2);
+	if (!s1 || !s2) {
+
+		return NULL;
+	}
+
+	ft_memcpy(result, s1, len1);
+
+	ft_memcpy(result + len1, s2, len2);
+
+	result[len1 + len2]='\0';
+
+	return result;
+
+}
+
+
+char *ft_strtrim(char const *s1) {
+    size_t start = 0;
+    size_t end;
+    char *trimmed;
+
+    if (!s1) {
+        return NULL;
+    }
+
+    end = ft_strlen(s1);
+
+    while (s1[start] && ft_isspace((unsigned char)s1[start])) {
+        start++;
+    }
+    while (end > start && ft_isspace((unsigned char)s1[end - 1])) {
+        end--;
+    }
+
+    trimmed = (char *)malloc((end - start + 1) * sizeof(char));
+    if (!trimmed) {
+        return NULL;
+    }
+
+    if (end - start > 0) {
+        ft_memcpy(trimmed, s1 + start, end - start);
+    }
+    
+    trimmed[end - start] = '\0';
+    
+    return trimmed;
+}
+
+char **ft_split(char const *s){
+
+	char **result;
+	size_t word_c;
+	size_t i = 0;
+	size_t word_len = 0;
+
+	if (!s) {
+		return NULL;
+	}	
+
+	word_c = ft_wordcounter(s);
+	result = (char **)malloc((word_c + 1) * sizeof(char *));
+	if (!result) {
+		return NULL;
+	}
+	while (*s) {
+		while (*s == ft_isspace((unsigned char)*s)) {
+			s++;
+		}
+		if (!*s) {
+			break;	
+		}
+		while (s[word_len] && !ft_isspace((unsigned char)s[word_len])) {
+			word_len++;
+		}
+		result[i] = (char *)malloc(word_len + 1);
+		if (!result[i]) {
+			while (i > 0) {
+				free(result[--i]);
+			}
+			free(result);
+			return NULL;
+		}
+		ft_memcpy(result[i], s, word_len);
+		result[i][word_len]= '\0';
+		i++;
+		s += word_len;
+	}
+
+	result[i] = NULL;
+	return result;
+
+}
+
+char *ft_itoa(int n){
+
+	char *result;
+	size_t len;
+	unsigned int num;
+	
+	len = ft_count_digits(n);
+	result = (char *)malloc(len + 1);
+
+	if (!result) {
+		return NULL;
+	}
+	result[len] = '\0';	
+	if (n < 0) {
+		result[0] = '-';
+		num = -n;
+	}else {
+		num = n;
+	}
+
+	if (num == 0) {
+		result[0] = '0'; 
+	}
+
+	while (num) {
+		result[--len] = (num % 10) + '0';
+		num /= 10;
+	}
+	return result;
+}
