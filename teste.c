@@ -14,19 +14,10 @@ int main(){
 	//printf ("\n%s\n" ,result);
 	//printf("%d\n",ft_strlcpy(str, "World", 10));
 	//printf("A = %s\n",a);
-	char const sentence[] = "Ola eu sou o alberto";
-    	char **words = ft_split(sentence); // Get split words
-    	size_t i = 0;
 
-    	if (!words) {
-        	printf("Memory allocation failed\n");
-        	return 1;
-    	}
-
-  	  while (words[i]) { // Loop through the array of words
-        printf("%s\n", words[i]);
-        free(words[i]); // Free each allocated word
-        i++;
-    }
-    free(words); // Free the array itself
+	char *s = "hello";
+	char (*f)(char) = ft_toupper;
+	char *result = ft_strmapi(s, f);
+	printf("%s\n", result);
 }
+

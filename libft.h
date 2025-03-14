@@ -1,4 +1,5 @@
 #include <stdlib.h> 
+#include <unistd.h>
 
 
 static size_t ft_wordcounter(char const *s){
@@ -480,4 +481,88 @@ char *ft_itoa(int n){
 		num /= 10;
 	}
 	return result;
+}
+
+
+
+char *ft_strmapi(char const *s, char (*f)(char)){
+
+	char *result;
+	size_t len;
+	size_t i;
+
+	if (!s || !f) {
+		return NULL;
+	}
+	
+	len = ft_strlen(s);
+	result = (char *)malloc(len + 1);
+	
+	if (!result) {
+		return NULL;
+	}
+	
+	i = 0;
+	
+	while (s[i]) {
+		result[i] = f(s[i]);
+		i++;
+	}
+	result[i] = '\0';
+
+	return result;
+
+
+}
+
+
+void ft_striteri(char *s, void (*f)(unsigned int, char*)) {
+    unsigned int i;
+
+    if (!s || !f)
+        return;
+
+    i = 0;
+    while (s[i]) {
+        f(i, &s[i]);
+        i++;
+    }
+}
+
+
+
+void ft_putchar_fd(char c, int n){
+
+	write(n, &c, 1);
+
+}
+
+void ft_putstr_fd(char *s, int n) {
+    if (!s)
+        return;
+    write(n, s, ft_strlen(s));
+}
+
+void ft_putendl_fd(char *s, int n) {
+    if (!s)
+        return;
+    write(n, s, ft_strlen(s));
+    write(n, "\n", 1);
+}
+
+void ft_putnbr_fd(int n, int fd) {
+    if (n == -2147483648) {
+        write(fd, "-2147483648", 11);
+        return;
+    }
+
+    if (n < 0) {
+        write(fd, "-", 1);
+        n = -n;
+    }
+
+    if (n >= 10)
+        ft_putnbr_fd(n / 10, fd);
+
+    ft_putchar_fd((n % 10) + '0', fd);
 }
